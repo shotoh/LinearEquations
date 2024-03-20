@@ -1,5 +1,5 @@
 import pandas as pd
-import math
+import math  # only use this library for the percentile part (only using ceil and floor)
 
 
 def find_minimum(values):
@@ -86,7 +86,7 @@ print('Variance MEDV: ', find_variance(medv, find_mean(medv)))
 print('Standard Deviation MEDV: ', find_variance(medv, find_mean(medv)) ** 0.5)
 
 sorted_medv = list(medv)
-sorted_medv.sort()
+sorted_medv.sort()  # sorts the list to use the percentile methods
 print('40% percentile:')
 print('1. ', find_percentile_method_1(sorted_medv, 0.4))
 print('2. ', find_percentile_method_2(sorted_medv, 0.4))
