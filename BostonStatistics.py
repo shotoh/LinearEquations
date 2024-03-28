@@ -1,5 +1,14 @@
 import pandas as pd
-import math  # only use this library for the percentile part (only using ceil and floor)
+
+
+# util method to round down
+def floor(number):
+    return int(number)
+
+
+# util method to round up
+def ceil(number):
+    return floor(number) + 1
 
 
 def find_minimum(values):
@@ -52,27 +61,27 @@ def find_variance(values, mean):
 
 # greater than method
 def find_percentile_method_1(sorted_values, percentile):
-    rank = math.ceil(len(sorted_values) * percentile)
+    rank = ceil(len(sorted_values) * percentile)
     return sorted_values[rank]
 
 
 # greater than or equal method
 def find_percentile_method_2(sorted_values, percentile):
-    rank = math.ceil(len(sorted_values) * percentile) - 1
+    rank = ceil(len(sorted_values) * percentile) - 1
     return sorted_values[rank]
 
 
 # interpolation approach
 def find_percentile_method_3(sorted_values, percentile):
-    rank = math.ceil((len(sorted_values) + 1) * percentile)
+    rank = (len(sorted_values) + 1) * percentile
     # if integer than use as rank
     if isinstance(rank, int):
         return sorted_values[rank]
-    floor = sorted_values[math.floor(rank)]
-    ceil = sorted_values[math.ceil(rank)]
+    floor_val = sorted_values[floor(rank)]
+    ceil_val = sorted_values[ceil(rank)]
     frac = rank - int(rank)
     # finds the difference between ceil and floor and multiplies it by fractional portion
-    return (ceil - floor) * frac + floor
+    return (ceil_val - floor_val) * frac + floor_val
 
 
 df = pd.read_csv('BostonHousing.csv')[['medv']]  # read csv and use only the MEDV column
@@ -88,10 +97,10 @@ print('Standard Deviation MEDV: ', find_variance(medv, find_mean(medv)) ** 0.5)
 sorted_medv = list(medv)
 sorted_medv.sort()  # sorts the list to use the percentile methods
 print('40% percentile:')
-print('1. ', find_percentile_method_1(sorted_medv, 0.4))
-print('2. ', find_percentile_method_2(sorted_medv, 0.4))
-print('3. ', find_percentile_method_3(sorted_medv, 0.4))
+print('1. (greater than) ', find_percentile_method_1(sorted_medv, 0.4))
+print('2. (greater than or equal) ', find_percentile_method_2(sorted_medv, 0.4))
+print('3. (interpolation) ', find_percentile_method_3(sorted_medv, 0.4))
 print('80% percentile:')
-print('1. ', find_percentile_method_1(sorted_medv, 0.8))
-print('2. ', find_percentile_method_2(sorted_medv, 0.8))
-print('3. ', find_percentile_method_3(sorted_medv, 0.8))
+print('1. (greater than) ', find_percentile_method_1(sorted_medv, 0.8))
+print('2. (greater than or equal) ', find_percentile_method_2(sorted_medv, 0.8))
+print('3. (interpolation) ', find_percentile_method_3(sorted_medv, 0.8))
